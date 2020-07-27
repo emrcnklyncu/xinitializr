@@ -1,0 +1,46 @@
+{
+  "name": "xinitializr",
+  "version": "0.0.1",
+  "description": "Xinitializr is a development platform to quickly generate, develop and deploy modern web applications.",
+  "author": {
+    "name": "Emircan Kalyoncu",
+    "email": "emircan.kalyoncu@gmail.com",
+    "url": "https://github.com/emrcnklyncu"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/emrcnklyncu/xinitializr"
+  },
+  "bugs": "https://github.com/emrcnklyncu/xinitializr/issues",
+  "homepage": "https://github.com/emrcnklyncu/xinitializr",
+  "license": "Apache-2.0",
+  "bin": {
+    "xir": "./cli/index.js"
+  },
+  "files": [
+    "cli",
+    "generators",
+    "utils"
+  ],
+  "keywords": [
+    "Java",
+    "Spring",
+    "Spring Boot",
+    "Spring Security",
+    "JPA",
+    "Hibernate",
+    "Bootstrap",
+    "Docker",
+    "Kubernetes"
+  ],
+  "dependencies": {
+    
+  },
+  "devDependencies": {
+
+  },
+  "engines": {
+    "node": ">=12.9.0",
+    "npm": ">=6.10.2"
+  }
+}

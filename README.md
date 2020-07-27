@@ -1,2 +1,9 @@
 # xinitializr
-XInitializr is a development platform to quickly generate, develop, &amp; deploy modern web applications &amp; microservice architectures.
+Xinitializr is a development platform to quickly generate, develop and deploy modern web applications.
+
+## Installation
+
+Using npm:
+```shell
+$ npm i -g xinitializr
+```
