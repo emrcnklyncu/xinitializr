@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /**
  * Copyright 2020 the original author or authors from the Xinitializr project.
  *
@@ -16,3 +17,145 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+const {spawn} = require('child_process');
+const fs = require('fs');
+const path = require('path');
+const os = require('os');
+const chalk = require('chalk');
+
+const info = chalk.green;
+const error = chalk.bold.red;
+const warning = chalk.keyword('orange');
+
+const utils = require('../utils/util.js');
+const packageJson = require('../package.json');
+
+function call_proc(args) {
+
+  var proc = null;
+
+  if ('install' === args[0]) {
+      proc = spawn('npm', ['install']);
+  } else {
+      proc = spawn('npm', ['run', 'env', '--'].concat(args));
+  }
+
+  proc.stdout.setEncoding('utf8');
+  proc.stdout.on('data', function(data) {
+      console.log(data.toString().replace(/(?:\r\n|\r|\n)/g, ''));
+  });
+  proc.stderr.on('data', function(data) {
+      console.log('ERROR: ' + data.toString().replace(/(?:\r\n|\r|\n)/g, ''));
+  });
+  proc.on('close', function(code) {
+      console.log('process exited with code ' + code);
+  });
+
+};
+
+function display_help() {
+
+  console.log('');
+  console.log(info('usage: xinitializr [command] <parameter>'));
+  console.log('');
+  console.log('create <appName>       : create a new application');
+  console.log('generate <appName>     : generate a new application');
+  console.log('install                : install dependencies');
+  console.log('start                  : start web application');
+  console.log('stop                   : stop web application');
+  console.log('stopall                : stop all running web applications');
+  console.log('restart                : restart web application');
+  console.log('restartall             : restart all running web applications');
+  console.log('list                   : list all running web applications');
+  console.log('test                   : test web application');
+  console.log('build                  : build web application');
+  console.log('watch                  : watch web application');
+  console.log('update                 : update new features');
+  console.log('version                : xinitializr version');
+  console.log('help                   : output the help');
+  console.log('');
+
+};
+
+function main() {
+
+  console.log('');
+  console.log('|================================================================================================================|');
+  console.log('| ' + ''.padRight(110) + ' |');
+  console.log('| ' + (chalk.blue.bold('Xinitializr') + ' ' + chalk.green.italic('v' + packageJson.version)).padRight(148) + ' |');
+  console.log('| ' + ''.padRight(110) + ' |');
+  console.log('| ' + chalk.yellow.italic(packageJson.description).padRight(129) + ' |');
+  console.log('| ' + ''.padRight(110) + ' |');
+  console.log('|================================================================================================================|');
+  console.log('');
+  //TODO:EK update gelince uyari verilebilir
+
+  var uid = process.env.UID;
+  var dir = process.cwd();
+  var args = process.argv.splice(process.execArgv.length + 2);
+  var cmd = args[0];
+  var param = args[1];
+
+  if ('v' === cmd || 'version' === cmd) {
+      return;
+  }
+  if ('h' === cmd || 'help' === cmd) {
+      display_help();
+      return;
+  }
+  if ('c' === cmd || 'create' === cmd) {
+      if (!param) {
+          console.error(error('ERROR: appName is required.\n'));
+          return;
+      } else {
+          return;
+      }
+  }
+  if ('i' === cmd || 'install' === cmd) {
+      call_proc(['install']);
+      return;
+  }
+  if ('start' === cmd) {
+      call_proc(['forever', 'start', '--append', '--uid', uid, 'server.js']);
+      return;
+  }
+  if ('stop' === cmd) {
+      call_proc(['forever', 'stop', uid]);
+      return;
+  }
+  if ('stopall' === cmd) {
+      call_proc(['forever', 'stopall']);
+      return;
+  }
+  if ('restart' === cmd) {
+      call_proc(['forever', 'restart', uid]);
+      return;
+  }
+  if ('restartall' === cmd) {
+      call_proc(['forever', 'restartall']);
+      return;
+  }
+  if ('list' === cmd) {
+      call_proc(['forever', 'list']);
+      return;
+  }
+  if ('test' === cmd) {
+      call_proc(['mocha', '--recursive']);
+      return;
+  }
+  if ('build' === cmd) {
+      call_proc(['gulp', 'build', '--production']);
+      return;
+  }
+  if ('watch' === cmd) {
+      call_proc(['gulp']);
+      return;
+  }
+  if ('update' === cmd) {
+      return;
+  }
+  console.error(error('ERROR: wrong use. please look for help.\n'));
+
+};
+
+main();

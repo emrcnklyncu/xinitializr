@@ -15,7 +15,7 @@
   "homepage": "https://github.com/emrcnklyncu/xinitializr",
   "license": "Apache-2.0",
   "bin": {
-    "xir": "./cli/index.js"
+    "xinitializr": "./cli/index.js"
   },
   "files": [
     "cli",
@@ -34,11 +34,10 @@
     "Kubernetes"
   ],
   "dependencies": {
-    
+    "chalk": "^4.1.0",
+    "dotenv": "^8.2.0"
   },
-  "devDependencies": {
-
-  },
+  "devDependencies": {},
   "engines": {
     "node": ">=12.9.0",
     "npm": ">=6.10.2"

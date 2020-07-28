@@ -16,9 +16,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 String.prototype.padRight = function(max, c) {
   var self = this;
   return self + new Array(Math.max(0, max - self.length + 1)).join(c || ' ');
 };
+String.prototype.wrap = function(maxLineLength) {
+  var self = this;
+  const words = self.replace(/[\r\n]+/g, ' ').split(' ');
+  let lineLength = 0;
+  
+  // use functional reduce, instead of for loop 
+  return words.reduce((result, word) => {
+    if (lineLength + word.length >= maxLineLength) {
+      lineLength = word.length;
+      return result + `\n${word}`; // don't add spaces upfront
+    } else {
+      lineLength += word.length + (result ? 1 : 0);
+      return result ? result + ` ${word}` : `${word}`; // add space only when needed
+    }
+  }, '');
+}
