@@ -17,17 +17,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+require('../utils/general.js');
+
 const {spawn} = require('child_process');
 const fs = require('fs');
 const path = require('path');
-const os = require('os');
 const chalk = require('chalk');
 
-const info = chalk.green;
+const info = chalk.blue;
+const success = chalk.bold.green;
 const error = chalk.bold.red;
 const warning = chalk.keyword('orange');
 
-const utils = require('../utils/util.js');
+const parser = require('../utils/parser.js');
 const packageJson = require('../package.json');
 
 function call_proc(args) {
@@ -58,8 +60,8 @@ function display_help() {
   console.log('');
   console.log(info('usage: xinitializr [command] <parameter>'));
   console.log('');
-  console.log('create <appName>       : create a new application');
-  console.log('generate <appName>     : generate a new application');
+  console.log('generate <xidl file>   : generate a new application');
+  /*
   console.log('install                : install dependencies');
   console.log('start                  : start web application');
   console.log('stop                   : stop web application');
@@ -71,6 +73,7 @@ function display_help() {
   console.log('build                  : build web application');
   console.log('watch                  : watch web application');
   console.log('update                 : update new features');
+  */
   console.log('version                : xinitializr version');
   console.log('help                   : output the help');
   console.log('');
@@ -103,14 +106,25 @@ function main() {
       display_help();
       return;
   }
-  if ('c' === cmd || 'create' === cmd) {
+  if ('g' === cmd || 'generate' === cmd) {
       if (!param) {
-          console.error(error('ERROR: appName is required.\n'));
-          return;
-      } else {
-          return;
+        console.error(error('ERROR: file is required.\n'));
+        return;
       }
+      if (!fs.existsSync(param)) {
+        console.error(error('ERROR: file not found.\n'));
+        return;
+      }
+      if ('.xidl' != path.extname(fs.realpathSync(param))) {
+        console.error(error('ERROR: file format is not valid.\n'));
+        return;
+      }
+      parser.parse(fs.realpathSync(param));
+
+
+      return;
   }
+  /*
   if ('i' === cmd || 'install' === cmd) {
       call_proc(['install']);
       return;
@@ -154,6 +168,7 @@ function main() {
   if ('update' === cmd) {
       return;
   }
+  */
   console.error(error('ERROR: wrong use. please look for help.\n'));
 
 };

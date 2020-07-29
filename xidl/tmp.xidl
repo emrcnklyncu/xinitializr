@@ -1,0 +1,20 @@
+application Smagg {
+	packageName com.linktera.smagg
+	artifact smagg
+	version 1.0.0
+	port 8080
+	authenticationType JWT
+	buildType Maven
+
+	entity User(APP_USERS) {
+		id(Long, NotNull, PrimaryKey)
+		userName(String, NotNull)
+	}
+	
+	entity Role(APP_ROLES) {
+		id(Long, NotNull, PrimaryKey)
+		roleName(String, NotNull, Min=100, Max=2000)
+		roleCode(String, NotNull, Min=1, Max=3)
+		userId(Entity:User, Relation:OneToMany)
+	}
+}
