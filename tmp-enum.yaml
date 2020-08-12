@@ -1,0 +1,4 @@
+apiVersion: v1
+kind: Enum
+name: Status
+values: Active, Passive, Deleted  

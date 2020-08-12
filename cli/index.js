@@ -29,7 +29,7 @@ const success = chalk.bold.green;
 const error = chalk.bold.red;
 const warning = chalk.keyword('orange');
 
-const parser = require('../utils/parser.js');
+const parser = require('./parser.js');
 const packageJson = require('../package.json');
 
 function call_proc(args) {
@@ -60,7 +60,7 @@ function display_help() {
   console.log('');
   console.log(info('usage: xinitializr [command] <parameter>'));
   console.log('');
-  console.log('generate <xidl file>   : generate a new application');
+  console.log('apply <yaml file>      : apply file');
   /*
   console.log('install                : install dependencies');
   console.log('start                  : start web application');
@@ -106,7 +106,7 @@ function main() {
       display_help();
       return;
   }
-  if ('g' === cmd || 'generate' === cmd) {
+  if ('a' === cmd || 'apply' === cmd) {
       if (!param) {
         console.error(error('ERROR: file is required.\n'));
         return;
@@ -115,7 +115,7 @@ function main() {
         console.error(error('ERROR: file not found.\n'));
         return;
       }
-      if ('.xidl' != path.extname(fs.realpathSync(param))) {
+      if ('.yaml' != path.extname(fs.realpathSync(param))) {
         console.error(error('ERROR: file format is not valid.\n'));
         return;
       }

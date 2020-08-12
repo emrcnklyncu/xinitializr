@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Entity
+name: User
+table: APP_USERS
+columns:
+  id: PK, Long, Unique
+  uuid: UUID
+  organizationId: Long
+  userName: String, Min=5, Max=100

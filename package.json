@@ -35,8 +35,8 @@
   ],
   "dependencies": {
     "chalk": "^4.1.0",
-    "chevrotain": "^7.0.1",
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "yaml": "^1.10.0"
   },
   "devDependencies": {},
   "engines": {
