@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Application
 name: New Application
 config:
-  port: 8080
+  port: 8081
 entities:
   User: 
     table: APP_USERS
@@ -16,7 +16,7 @@ entities:
     columns:
       id: PK, Long, Unique
       uuid: UUID
-      organizationId: Long
+      organizationId: String
   UserRole:
     table: APP_USER_ROLES
     columns:

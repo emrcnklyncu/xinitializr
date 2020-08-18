@@ -5,5 +5,6 @@ table: APP_USERS
 columns:
   id: PK, Long, Unique
   uuid: UUID
-  organizationId: Long
+  organizationId: Long, Column=ORG_ID
+  createdBy: Entity=User
   userName: String, Min=5, Max=100
