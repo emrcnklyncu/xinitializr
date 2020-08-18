@@ -18,19 +18,16 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-require('../utils/general.js');
-
 const {spawn} = require('child_process');
 const fs = require('fs');
 const path = require('path');
-const chalk = require('chalk');
+const yaml = require('yaml');
 
-const info = chalk.blue;
-const success = chalk.bold.green;
-const error = chalk.bold.red;
-const warning = chalk.keyword('orange');
+const utils = require('../utils/utils.js');
+const cons = require('../utils/cons.js');
+const parser = require('../utils/parser.js');
+const validator = require('../utils/validator.js');
 
-const parser = require('./parser.js');
 const packageJson = require('../package.json');
 
 function call_proc(args) {
@@ -59,7 +56,7 @@ function call_proc(args) {
 function display_help() {
 
   console.log('');
-  console.log(info('usage: xinitializr [command] <parameter>'));
+  console.log(cons.info('usage: xinitializr [command] <parameter>'));
   console.log('');
   console.log('apply <yaml file>      : apply file');
   /*
@@ -85,11 +82,11 @@ function main() {
 
   console.log('');
   console.log('|================================================================================================================|');
-  console.log('| ' + ''.padRight(110) + ' |');
-  console.log('| ' + (chalk.blue.bold('Xinitializr') + ' ' + chalk.green.italic('v' + packageJson.version)).padRight(148) + ' |');
-  console.log('| ' + ''.padRight(110) + ' |');
-  console.log('| ' + chalk.yellow.italic(packageJson.description).padRight(129) + ' |');
-  console.log('| ' + ''.padRight(110) + ' |');
+  console.log('| ' + utils.padRight('', 110) + ' |');
+  console.log('| ' + utils.padRight((cons.info('Xinitializr') + ' ' + cons.success('v' + packageJson.version)), 148) + ' |');
+  console.log('| ' + utils.padRight('', 110) + ' |');
+  console.log('| ' + utils.padRight(cons.warning(packageJson.description), 132) + ' |');
+  console.log('| ' + utils.padRight('', 110) + ' |');
   console.log('|================================================================================================================|');
   console.log('');
   //TODO:EK update gelince uyari verilebilir
@@ -109,18 +106,27 @@ function main() {
   }
   if ('a' === cmd || 'apply' === cmd) {
       if (!param) {
-        console.error(error('ERROR: file is required.\n'));
+        console.error(cons.error('ERROR: file is required.\n'));
         return;
       }
       if (!fs.existsSync(param)) {
-        console.error(error('ERROR: file not found.\n'));
+        console.error(cons.error('ERROR: file not found.\n'));
         return;
       }
       if ('.yaml' != path.extname(fs.realpathSync(param))) {
-        console.error(error('ERROR: file format is not valid.\n'));
+        console.error(cons.error('ERROR: file format is not valid.\n'));
         return;
       }
-      parser.parse(fs.realpathSync(param));
+      let file = fs.readFileSync(fs.realpathSync(param), 'utf8');
+      let json = yaml.parse(file);
+      /**
+       * 
+       */
+      validator.validate(json);
+      /**
+       * 
+       */
+      parser.parse(json);
 
 
       return;
@@ -170,7 +176,7 @@ function main() {
       return;
   }
   */
-  console.error(error('ERROR: wrong use. please look for help.\n'));
+  console.error(cons.error('ERROR: wrong use. please look for help.\n'));
 
 };
 
