@@ -20,14 +20,10 @@
 const cons = require('./cons');
 
 exports.validate = (json) => {
-  if (validateApiVersion(json)) {
-    if (validateKind(json)) {
-      if (validateName(json)) {
-
-      }
-    }
-  }
-  return false;
+  validateApiVersion(json);
+  validateKind(json);
+  validateName(json);
+  return;
 };
 const validateApiVersion = (json) => {
   if (json.apiVersion) {
@@ -35,11 +31,11 @@ const validateApiVersion = (json) => {
       return cons.v1;
     } else {
       console.error(cons.error('ERROR: "apiVersion" is not a defined value.'));
-      return false;
+      process.exit(1);
     }
   } else {
     console.error(cons.error('ERROR: "apiVersion" must be declared.'));
-    return false;
+    process.exit(1);
   }
 };
 const validateKind = (json) => {
@@ -52,18 +48,18 @@ const validateKind = (json) => {
       return cons.Enum;
     } else {
       console.error(cons.error('ERROR: "kind" is not a defined value.'));
-      return false;
+      process.exit(1);
     }
   } else {
     console.error(cons.error('ERROR: "kind" must be declared.'));
-    return false;
+    process.exit(1);
   }
 };
 const validateName = (json) => {
   if (json.name) {
-    return false;
+    process.exit(1);
   } else {
     console.error(cons.error('ERROR: "name" must be declared.'));
-    return false;
+    process.exit(1);
   }
 };

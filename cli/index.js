@@ -25,7 +25,6 @@ const yaml = require('yaml');
 
 const utils = require('../utils/utils.js');
 const cons = require('../utils/cons.js');
-const parser = require('../utils/parser.js');
 const validator = require('../utils/validator.js');
 
 const packageJson = require('../package.json');
@@ -98,36 +97,34 @@ function main() {
   var param = args[1];
 
   if ('v' === cmd || 'version' === cmd) {
-      return;
+    process.exit(1);
   }
   if ('h' === cmd || 'help' === cmd) {
-      display_help();
-      return;
+    display_help();
+    process.exit(1);
   }
   if ('a' === cmd || 'apply' === cmd) {
       if (!param) {
         console.error(cons.error('ERROR: file is required.\n'));
-        return;
+        process.exit(1);
       }
       if (!fs.existsSync(param)) {
         console.error(cons.error('ERROR: file not found.\n'));
-        return;
+        process.exit(1);
       }
       if ('.yaml' != path.extname(fs.realpathSync(param))) {
         console.error(cons.error('ERROR: file format is not valid.\n'));
-        return;
+        process.exit(1);
       }
+      /**
+       * convert yaml to json
+       */
       let file = fs.readFileSync(fs.realpathSync(param), 'utf8');
       let json = yaml.parse(file);
       /**
-       * 
+       * validate
        */
       validator.validate(json);
-      /**
-       * 
-       */
-      parser.parse(json);
-
 
       return;
   }

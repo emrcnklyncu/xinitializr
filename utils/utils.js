@@ -16,6 +16,9 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-exports.padRight = function(str, max, c) {
+exports.padRight = (str, max, c) => {
   return str + new Array(Math.max(0, max - str.length + 1)).join(c || ' ');
+};
+exports.render = () => {
+
 };
