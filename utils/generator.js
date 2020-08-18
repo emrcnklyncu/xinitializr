@@ -16,17 +16,8 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-const ejs = require('ejs');
+const cons = require('./cons');
 
-exports.padRight = (str, max, c) => {
-  return str + new Array(Math.max(0, max - str.length + 1)).join(c || ' ');
-};
-exports.render = (source, context, options, cb) => {
-  ejs.renderFile(source, context, options, (err, res) => {
-    if (!err) {
-        cb(res);
-    } else {
-        console.error(cons.error(`Copying template ${source} failed. [${err}]`));
-    }
-  });
+exports.generate = (json) => {
+  
 };

@@ -1,4 +1,3 @@
-
 /** 
  Copyright 2020 the original author or authors from the Xinitializr project.
  
@@ -26,6 +25,8 @@ exports.validate = (json) => {
   return;
 };
 const validateApiVersion = (json) => {
+  console.info(json);
+  console.info(json.apiVersion);
   if (json.apiVersion) {
     if (cons.v1 == json.apiVersion) {
       return cons.v1;

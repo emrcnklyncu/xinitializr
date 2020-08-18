@@ -26,6 +26,7 @@ const yaml = require('yaml');
 const utils = require('../utils/utils.js');
 const cons = require('../utils/cons.js');
 const validator = require('../utils/validator.js');
+const generator = require('../utils/generator.js');
 
 const packageJson = require('../package.json');
 
@@ -57,7 +58,7 @@ function display_help() {
   console.log('');
   console.log(cons.info('usage: xinitializr [command] <parameter>'));
   console.log('');
-  console.log('apply <yaml file>      : apply file');
+  console.log('apply <yaml/json file> : apply file');
   /*
   console.log('install                : install dependencies');
   console.log('start                  : start web application');
@@ -112,19 +113,29 @@ function main() {
         console.error(cons.error('ERROR: file not found.\n'));
         process.exit(1);
       }
-      if ('.yaml' != path.extname(fs.realpathSync(param))) {
+      /**
+       * read file
+       */
+      var json = {};
+      if ('.yaml' == path.extname(fs.realpathSync(param))) {
+        /**
+         * convert yaml to json
+         */
+        json = yaml.parse(fs.readFileSync(fs.realpathSync(param), 'utf8'));  
+      } else if ('.json' == path.extname(fs.realpathSync(param))) {
+        json = JSON.parse(fs.readFileSync(fs.realpathSync(param), 'utf8'));
+      } else {
         console.error(cons.error('ERROR: file format is not valid.\n'));
         process.exit(1);
       }
       /**
-       * convert yaml to json
-       */
-      let file = fs.readFileSync(fs.realpathSync(param), 'utf8');
-      let json = yaml.parse(file);
-      /**
        * validate
        */
       validator.validate(json);
+      /**
+       * generate
+       */
+      generator.generate(json);
 
       return;
   }
