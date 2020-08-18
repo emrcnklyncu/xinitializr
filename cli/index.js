@@ -128,6 +128,7 @@ function main() {
         console.error(cons.error('ERROR: file format is not valid.\n'));
         process.exit(1);
       }
+      console.info(json);
       /**
        * validate
        */

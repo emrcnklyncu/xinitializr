@@ -25,8 +25,6 @@ exports.validate = (json) => {
   return;
 };
 const validateApiVersion = (json) => {
-  console.info(json);
-  console.info(json.apiVersion);
   if (json.apiVersion) {
     if (cons.v1 == json.apiVersion) {
       return cons.v1;
@@ -58,7 +56,7 @@ const validateKind = (json) => {
 };
 const validateName = (json) => {
   if (json.name) {
-    process.exit(1);
+    return json.name;
   } else {
     console.error(cons.error('ERROR: "name" must be declared.'));
     process.exit(1);

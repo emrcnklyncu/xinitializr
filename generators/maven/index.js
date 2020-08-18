@@ -16,31 +16,6 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 */
-const fs = require('fs');
-const path = require('path');
-
-const generators = [];
-const cons = require('./cons');
-
-const readDir = (dir) => {
-  fs.readdirSync(dir).forEach(file => {
-    let name = path.join(dir, file);
-    let isDir = fs.statSync(name).isDirectory();
-    if (isDir) {
-      readDir(name);
-    } else {
-      if ('index.js' == file) {
-        if (typeof require(fs.realpathSync(name)).do == 'function') {
-          generators.push(require(fs.realpathSync(name)).do);
-        } else {
-          console.error(cons.error(`ERROR: "${name}" has not "do" method.`));
-        }
-      }
-    }
-  });
-};
-
-exports.generate = (json) => {
-  readDir('./generators');
-  generators.forEach((generator) => {generator(json)});
+exports.do = (json) => {
+  console.info('aa');
 };
